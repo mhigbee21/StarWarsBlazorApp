@@ -63,21 +63,27 @@ else
 
 @code {
     private IReadOnlyList<FilmDashboardItem>? films;
-
-    private int MaxCount =>
-        films?
-            .SelectMany(f => new[] { f.StarshipCount, f.PeopleCount, f.PlanetCount })
-            .DefaultIfEmpty(1)
-            .Max() ?? 1;
+    private int maxCount = 1;
 
     protected override async Task OnInitializedAsync()
     {
         films = await Swapi.GetFilmDashboardAsync();
+        maxCount = CalculateMaxCount(films);
+    }
+
+    private static int CalculateMaxCount(IReadOnlyList<FilmDashboardItem> films)
+    {
+        if (films.Count == 0)
+        {
+            return 1;
+        }
+
+        return films.Max(f => Math.Max(f.StarshipCount, Math.Max(f.PeopleCount, f.PlanetCount)));
     }
 
     private string GetBarWidth(int value)
     {
-        var percent = Math.Max(6, value * 100 / MaxCount);
+        var percent = Math.Max(6, value * 100 / maxCount);
         return $"{percent}%";
     }
 }
