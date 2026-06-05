@@ -9,11 +9,11 @@ public class StarWarsApiService(HttpClient http)
 
     public async Task<IReadOnlyList<Film>> GetAllFilmsAsync()
     {
-        return await GetAsync<Film>("films");
+        return await GetListAsync<Film>("films");
     }
     public async Task<IReadOnlyList<StarShip>> GetAllStarshipsAsync()
     {
-        return await GetAsync<StarShip>("starships");
+        return await GetListAsync<StarShip>("starships");
     }
 
     public async Task<IReadOnlyList<FilmDashboardItem>> GetFilmDashboardAsync()
@@ -32,7 +32,7 @@ public class StarWarsApiService(HttpClient http)
             .ToList();
     }
 
-    private async Task<IReadOnlyList<T>> GetAsync<T>(string endpoint)
+    private async Task<IReadOnlyList<T>> GetListAsync<T>(string endpoint)
     {
         var results = new List<T>();
         string? nextUrl = endpoint;
