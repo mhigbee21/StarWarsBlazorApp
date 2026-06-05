@@ -1283,3 +1283,9 @@ main {
         min-height: auto;
     }
 }
+
+/* Light blue starship names */
+.ship-main h2,
+.ship-card h2 {
+    color: var(--sw-blue) !important;
+}
