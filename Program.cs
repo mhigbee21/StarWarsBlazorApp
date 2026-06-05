@@ -13,12 +13,10 @@ public class Program
         builder.Services.AddRazorComponents()
             .AddInteractiveServerComponents();
 
-
         builder.Services.AddHttpClient<StarWarsApiService>(client =>
         {
             client.BaseAddress = new Uri("https://swapi.py4e.com/api/");
         });
-
 
         var app = builder.Build();
 
