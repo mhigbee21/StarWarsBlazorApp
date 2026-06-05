@@ -1,0 +1,214 @@
+﻿@page "/starshipfinder"
+@rendermode InteractiveServer
+@inject StarWarsBlazorApp.Services.StarWarsApiService Swapi
+
+<PageTitle>Starship Finder</PageTitle>
+
+<section class="hero-panel">
+    <p class="eyebrow">Finder</p>
+    <h1>Starship Finder</h1>
+    <p>Search starships by name, cargo capacity, and crew size.</p>
+</section>
+
+<section class="filter-panel">
+    <div class="field">
+        <label>Name</label>
+        <input @bind="nameFilter" @bind:event="oninput" placeholder="Death Star, Falcon, X-wing..." />
+    </div>
+
+    <div class="field">
+        <label>Min Cargo Capacity</label>
+        <input type="number" @bind="minCargoCapacity" placeholder="kg" />
+    </div>
+
+    <div class="field">
+        <label>Max Cargo Capacity</label>
+        <input type="number" @bind="maxCargoCapacity" placeholder="kg" />
+    </div>
+
+    <div class="field">
+        <label>Min Crew</label>
+        <input type="number" @bind="minCrew" />
+    </div>
+
+    <div class="field">
+        <label>Max Crew</label>
+        <input type="number" @bind="maxCrew" />
+    </div>
+
+    <button class="clear-button" @onclick="ClearFilters">Clear</button>
+</section>
+
+@if (starships is null)
+{
+    <p class="loading">Loading starships...</p>
+}
+else
+{
+    var filtered = FilteredStarships.ToList();
+
+    <div class="results-toolbar">
+        <p class="result-count">
+            Showing @filtered.Count of @starships.Count starships
+        </p>
+
+        <div class="view-switcher" aria-label="Choose results view">
+            <button type="button"
+                    class="@GetViewButtonClass(false)"
+                    title="List view"
+                    aria-label="List view"
+                    @onclick="@(() => isGridView = false)">
+                <span class="view-icon list-view-icon" aria-hidden="true"></span>
+            </button>
+
+            <button type="button"
+                    class="@GetViewButtonClass(true)"
+                    title="Grid view"
+                    aria-label="Grid view"
+                    @onclick="@(() => isGridView = true)">
+                <span class="view-icon grid-view-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+
+    @if (isGridView)
+    {
+        <div class="ship-grid">
+            @foreach (var ship in filtered)
+            {
+                <article class="ship-card">
+                    <h2>@ship.Name</h2>
+                    <p class="ship-model">@ship.Model</p>
+
+                    <div class="ship-card-meta">
+                        <div>
+                            <span>Class</span>
+                            <strong>@ship.StarshipClass</strong>
+                        </div>
+
+                        <div>
+                            <span>Manufacturer</span>
+                            <strong>@ship.Manufacturer</strong>
+                        </div>
+
+                        <div>
+                            <span>Crew</span>
+                            <strong>@ship.Crew</strong>
+                        </div>
+
+                        <div>
+                            <span>Cargo Capacity</span>
+                            <strong>@ship.CargoCapacity kg</strong>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="ship-list">
+            @foreach (var ship in filtered)
+            {
+                <article class="ship-row">
+                    <div class="ship-main">
+                        <h2>@ship.Name</h2>
+                        <p>@ship.Model</p>
+                    </div>
+
+                    <div class="ship-meta">
+                        <div>
+                            <span>Class</span>
+                            <strong>@ship.StarshipClass</strong>
+                        </div>
+
+                        <div>
+                            <span>Manufacturer</span>
+                            <strong>@ship.Manufacturer</strong>
+                        </div>
+
+                        <div>
+                            <span>Crew</span>
+                            <strong>@ship.Crew</strong>
+                        </div>
+
+                        <div>
+                            <span>Cargo Capacity</span>
+                            <strong>@ship.CargoCapacity kg</strong>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+}
+
+@code {
+    private IReadOnlyList<StarShip>? starships;
+
+    private bool isGridView = false;
+    private string? nameFilter;
+    private long? minCargoCapacity;
+    private long? maxCargoCapacity;
+    private long? minCrew;
+    private long? maxCrew;
+
+    protected override async Task OnInitializedAsync()
+    {
+        starships = await Swapi.GetAllStarshipsAsync();
+    }
+
+    private IEnumerable<StarShip> FilteredStarships =>
+        (starships ?? Array.Empty<StarShip>())
+            .Where(MatchesFilters)
+            .OrderBy(s => s.Name);
+
+    private string GetViewButtonClass(bool gridView)
+    {
+        return isGridView == gridView ? "view-button active" : "view-button";
+    }
+
+    private bool MatchesFilters(StarShip ship)
+    {
+        if (!string.IsNullOrWhiteSpace(nameFilter)
+            && !ship.Name.Contains(nameFilter, StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+
+        if (minCargoCapacity.HasValue
+            && (!ship.CargoCapacityNumber.HasValue || ship.CargoCapacityNumber < minCargoCapacity))
+        {
+            return false;
+        }
+
+        if (maxCargoCapacity.HasValue
+            && (!ship.CargoCapacityNumber.HasValue || ship.CargoCapacityNumber > maxCargoCapacity))
+        {
+            return false;
+        }
+
+        if (minCrew.HasValue
+            && (!ship.CrewNumber.HasValue || ship.CrewNumber < minCrew))
+        {
+            return false;
+        }
+
+        if (maxCrew.HasValue
+            && (!ship.CrewNumber.HasValue || ship.CrewNumber > maxCrew))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ClearFilters()
+    {
+        nameFilter = null;
+        minCargoCapacity = null;
+        maxCargoCapacity = null;
+        minCrew = null;
+        maxCrew = null;
+    }
+}

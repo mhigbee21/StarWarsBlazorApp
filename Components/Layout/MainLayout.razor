@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<div class="starwars-shell">
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="">STAR WARS</a>
+
+            <nav class="site-nav">
+                <NavLink href="" Match="NavLinkMatch.All">Dashboard</NavLink>
+                <NavLink href="starshipfinder">Starship Finder</NavLink>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-main">
+        @Body
+    </main>
+</div>

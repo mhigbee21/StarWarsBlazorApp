@@ -1,0 +1,83 @@
+﻿@page "/"
+
+@rendermode InteractiveServer
+@inject StarWarsBlazorApp.Services.StarWarsApiService Swapi
+
+<PageTitle>Star Wars Dashboard</PageTitle>
+
+<section class="hero-panel">
+    <p class="eyebrow">Dashboard</p>
+    <h1>Star Wars Film Overview</h1>
+    <p>Counts of starships, people, and planets appearing in each film.</p>
+</section>
+
+@if (films is null)
+{
+    <p class="loading">Loading dashboard...</p>
+}
+else
+{
+
+    <div class="dashboard-grid">
+        @foreach (var film in films)
+        {
+            <article class="film-card">
+                <div class="film-header">
+                    <span class="episode-badge">Episode @film.EpisodeId</span>
+                    <h2>@film.Title</h2>
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-top">
+                        <span>Starships</span>
+                        <strong>@film.StarshipCount</strong>
+                    </div>
+                    <div class="bar">
+                        <div class="bar-fill starships" style="width:@GetBarWidth(film.StarshipCount)"></div>
+                    </div>
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-top">
+                        <span>People</span>
+                        <strong>@film.PeopleCount</strong>
+                    </div>
+                    <div class="bar">
+                        <div class="bar-fill people" style="width:@GetBarWidth(film.PeopleCount)"></div>
+                    </div>
+                </div>
+
+                <div class="metric-row">
+                    <div class="metric-top">
+                        <span>Planets</span>
+                        <strong>@film.PlanetCount</strong>
+                    </div>
+                    <div class="bar">
+                        <div class="bar-fill planets" style="width:@GetBarWidth(film.PlanetCount)"></div>
+                    </div>
+                </div>
+            </article>
+        }
+    </div>
+}
+
+@code {
+    private IReadOnlyList<StarWarsBlazorApp.Models.FilmDashboardItem>? films;
+
+    private int MaxCount =>
+        films?
+            .SelectMany(f => new[] { f.StarshipCount, f.PeopleCount, f.PlanetCount })
+            .DefaultIfEmpty(1)
+            .Max() ?? 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        films = await Swapi.GetFilmDashboardAsync();
+    }
+
+    private string GetBarWidth(int value)
+    {
+        var percent = Math.Max(6, value * 100 / MaxCount);
+        return $"{percent}%";
+    }
+}

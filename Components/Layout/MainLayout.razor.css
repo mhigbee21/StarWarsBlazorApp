@@ -1,0 +1,123 @@
+.starwars-shell {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, rgba(58, 69, 100, 0.18), transparent 34rem), linear-gradient(180deg, #080808 0%, #111217 45%, #050505 100%);
+    color: #f5f5f5;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #000;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.site-header-inner {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0.9rem 2rem 0.75rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.site-brand {
+    grid-column: 2;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 0.85;
+    text-align: center;
+    font-size: 1.8rem;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+    .site-brand:hover {
+        color: #ffe81f;
+    }
+
+.site-nav {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+    border-top: 1px solid #242424;
+    padding-top: 0.65rem;
+}
+
+    .site-nav a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: #b8b8b8;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        font-size: 0.78rem;
+        font-weight: 800;
+        padding: 0.6rem 0.95rem;
+        border-radius: 999px;
+        border: 1px solid transparent;
+    }
+
+        .site-nav a:hover {
+            color: #ffffff;
+            border-color: #3c3c3c;
+            background: #151515;
+        }
+
+        .site-nav a.active {
+            color: #000;
+            background: #ffe81f;
+            border-color: #ffe81f;
+        }
+
+.nav-icon {
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    background-color: currentColor;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+}
+
+.dashboard-icon {
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2h5v5H2V2Zm7 0h5v5H9V2ZM2 9h5v5H2V9Zm7 0h5v5H9V9Z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2h5v5H2V2Zm7 0h5v5H9V2ZM2 9h5v5H2V9Zm7 0h5v5H9V9Z'/%3E%3C/svg%3E");
+}
+
+.starship-icon {
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 1 3.5 14.5l4.5-2 4.5 2L8 1Zm0 4.8 1.4 4.2L8 9.4 6.6 10 8 5.8Z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 1 3.5 14.5l4.5-2 4.5 2L8 1Zm0 4.8 1.4 4.2L8 9.4 6.6 10 8 5.8Z'/%3E%3C/svg%3E");
+}
+
+.site-main {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 3rem;
+}
+
+@media (max-width: 700px) {
+    .site-header-inner {
+        padding: 0.8rem 1rem;
+    }
+
+    .site-main {
+        padding: 1rem;
+    }
+
+    .site-nav {
+        flex-wrap: wrap;
+    }
+
+        .site-nav a {
+            font-size: 0.72rem;
+        }
+}
