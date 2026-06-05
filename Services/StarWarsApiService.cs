@@ -1,5 +1,4 @@
 ﻿using StarWarsBlazorApp.Models;
-using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace StarWarsBlazorApp.Services;
@@ -8,14 +7,20 @@ public class StarWarsApiService(HttpClient http)
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
+    public async Task<IReadOnlyList<Film>> GetAllFilmsAsync()
+    {
+        return await GetAsync<Film>("films");
+    }
+    public async Task<IReadOnlyList<StarShip>> GetAllStarshipsAsync()
+    {
+        return await GetAsync<StarShip>("starships");
+    }
+
     public async Task<IReadOnlyList<FilmDashboardItem>> GetFilmDashboardAsync()
     {
-        var response = await http.GetFromJsonAsync<StarWarsListResponse<Film>>(
-            "films/",
-            JsonOptions
-        );
+        var films = await GetAllFilmsAsync();
 
-        return response?.Results
+        return films
             .OrderBy(f => f.EpisodeId)
             .Select(f => new FilmDashboardItem(
                 f.Title,
@@ -24,15 +29,10 @@ public class StarWarsApiService(HttpClient http)
                 f.Characters.Count,
                 f.Planets.Count
             ))
-            .ToList() ?? [];
+            .ToList();
     }
 
-    public async Task<IReadOnlyList<StarShip>> GetAllStarshipsAsync()
-    {
-        return await GetAllPagesAsync<StarShip>("starships/");
-    }
-
-    private async Task<IReadOnlyList<T>> GetAllPagesAsync<T>(string endpoint)
+    private async Task<IReadOnlyList<T>> GetAsync<T>(string endpoint)
     {
         var results = new List<T>();
         string? nextUrl = endpoint;
