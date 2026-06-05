@@ -1,6 +1,7 @@
 ﻿@page "/starshipfinder"
 @rendermode InteractiveServer
 @inject StarWarsBlazorApp.Services.StarWarsApiService Swapi
+@inject IJSRuntime JS
 
 <PageTitle>Starship Finder</PageTitle>
 
@@ -57,7 +58,7 @@ else
                     class="@GetViewButtonClass(false)"
                     title="List view"
                     aria-label="List view"
-                    @onclick="@(() => isGridView = false)">
+                    @onclick="ShowListView">
                 <span class="view-icon list-view-icon" aria-hidden="true"></span>
             </button>
 
@@ -65,7 +66,7 @@ else
                     class="@GetViewButtonClass(true)"
                     title="Grid view"
                     aria-label="Grid view"
-                    @onclick="@(() => isGridView = true)">
+                    @onclick="ShowGridView">
                 <span class="view-icon grid-view-icon" aria-hidden="true"></span>
             </button>
         </div>
@@ -151,10 +152,55 @@ else
     private long? maxCargoCapacity;
     private long? minCrew;
     private long? maxCrew;
+    private const string ViewPreferenceKey = "starwars.starshipFinder.view";
+
 
     protected override async Task OnInitializedAsync()
     {
         starships = await Swapi.GetAllStarshipsAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        var savedView = await JS.InvokeAsync<string?>(
+            "localStorage.getItem",
+            ViewPreferenceKey
+        );
+
+        isGridView = string.Equals(savedView, "grid", StringComparison.OrdinalIgnoreCase);
+
+        StateHasChanged();
+    }
+    private async Task ShowListView()
+    {
+        isGridView = false;
+
+        await JS.InvokeVoidAsync(
+            "localStorage.setItem",
+            ViewPreferenceKey,
+            "list"
+        );
+    }
+
+    private async Task ShowGridView()
+    {
+        isGridView = true;
+
+        await JS.InvokeVoidAsync(
+            "localStorage.setItem",
+            ViewPreferenceKey,
+            "grid"
+        );
+    }
+
+    private string GetViewButtonClass(bool gridView)
+    {
+        return isGridView == gridView ? "view-button active" : "view-button";
     }
 
     private IEnumerable<StarShip> FilteredStarships =>
@@ -162,11 +208,7 @@ else
             .Where(MatchesFilters)
             .OrderBy(s => s.Name);
 
-    private string GetViewButtonClass(bool gridView)
-    {
-        return isGridView == gridView ? "view-button active" : "view-button";
-    }
-
+  
     private bool MatchesFilters(StarShip ship)
     {
         if (!string.IsNullOrWhiteSpace(nameFilter)
