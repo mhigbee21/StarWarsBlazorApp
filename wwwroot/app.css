@@ -1289,3 +1289,72 @@ main {
 .ship-card h2 {
     color: var(--sw-blue) !important;
 }
+
+/* Denser random star background */
+html,
+body {
+    background: #050505 !important;
+}
+
+.starwars-shell,
+.page {
+    position: relative;
+    isolation: isolate;
+    overflow-x: hidden;
+    background: transparent !important;
+}
+
+.site-main,
+main,
+.content {
+    background: transparent !important;
+}
+
+/* Main dense star layer */
+.starwars-shell::before,
+.page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background: radial-gradient(circle at 2% 10%, rgba(255,255,255,.9) 0 1px, transparent 1.4px), radial-gradient(circle at 5% 28%, rgba(255,255,255,.7) 0 1px, transparent 1.3px), radial-gradient(circle at 8% 46%, rgba(255,255,255,.8) 0 1px, transparent 1.4px), radial-gradient(circle at 11% 68%, rgba(255,255,255,.6) 0 1px, transparent 1.3px), radial-gradient(circle at 14% 84%, rgba(255,255,255,.8) 0 1px, transparent 1.4px), radial-gradient(circle at 18% 16%, rgba(255,255,255,.65) 0 1px, transparent 1.3px), radial-gradient(circle at 21% 35%, rgba(255,255,255,.9) 0 1px, transparent 1.4px), radial-gradient(circle at 24% 58%, rgba(255,255,255,.75) 0 1px, transparent 1.4px), radial-gradient(circle at 27% 77%, rgba(255,255,255,.65) 0 1px, transparent 1.3px), radial-gradient(circle at 31% 9%, rgba(255,255,255,.8) 0 1px, transparent 1.4px), radial-gradient(circle at 34% 25%, rgba(255,255,255,.6) 0 1px, transparent 1.3px), radial-gradient(circle at 37% 44%, rgba(255,255,255,.85) 0 1px, transparent 1.4px), radial-gradient(circle at 40% 63%, rgba(255,255,255,.7) 0 1px, transparent 1.3px), radial-gradient(circle at 43% 82%, rgba(255,255,255,.8) 0 1px, transparent 1.4px), radial-gradient(circle at 47% 14%, rgba(255,255,255,.65) 0 1px, transparent 1.3px), radial-gradient(circle at 50% 31%, rgba(255,255,255,.9) 0 1px, transparent 1.4px), radial-gradient(circle at 53% 49%, rgba(255,255,255,.75) 0 1px, transparent 1.4px), radial-gradient(circle at 56% 70%, rgba(255,255,255,.7) 0 1px, transparent 1.3px), radial-gradient(circle at 59% 89%, rgba(255,255,255,.85) 0 1px, transparent 1.4px), radial-gradient(circle at 63% 18%, rgba(255,255,255,.65) 0 1px, transparent 1.3px), radial-gradient(circle at 66% 37%, rgba(255,255,255,.8) 0 1px, transparent 1.4px), radial-gradient(circle at 69% 55%, rgba(255,255,255,.7) 0 1px, transparent 1.3px), radial-gradient(circle at 72% 73%, rgba(255,255,255,.9) 0 1px, transparent 1.4px), radial-gradient(circle at 75% 91%, rgba(255,255,255,.6) 0 1px, transparent 1.3px), radial-gradient(circle at 79% 12%, rgba(255,255,255,.8) 0 1px, transparent 1.4px), radial-gradient(circle at 82% 29%, rgba(255,255,255,.7) 0 1px, transparent 1.3px), radial-gradient(circle at 85% 47%, rgba(255,255,255,.85) 0 1px, transparent 1.4px), radial-gradient(circle at 88% 66%, rgba(255,255,255,.65) 0 1px, transparent 1.3px), radial-gradient(circle at 91% 83%, rgba(255,255,255,.8) 0 1px, transparent 1.4px), radial-gradient(circle at 95% 21%, rgba(255,255,255,.7) 0 1px, transparent 1.3px), radial-gradient(circle at 98% 58%, rgba(255,255,255,.9) 0 1px, transparent 1.4px), #050505;
+}
+
+/* Second layer: more stars + a few tinted stars + subtle glow */
+.starwars-shell::after,
+.page::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at 4% 18%, rgba(255,255,255,.55) 0 1px, transparent 1.3px), radial-gradient(circle at 9% 61%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 13% 39%, rgba(255,255,255,.5) 0 1px, transparent 1.3px), radial-gradient(circle at 17% 87%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 23% 12%, rgba(255,255,255,.5) 0 1px, transparent 1.3px), radial-gradient(circle at 28% 52%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 33% 74%, rgba(255,255,255,.5) 0 1px, transparent 1.3px), radial-gradient(circle at 39% 21%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 45% 92%, rgba(255,255,255,.5) 0 1px, transparent 1.3px), radial-gradient(circle at 52% 42%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 57% 11%, rgba(255,255,255,.5) 0 1px, transparent 1.3px), radial-gradient(circle at 62% 64%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 68% 26%, rgba(255,255,255,.5) 0 1px, transparent 1.3px), radial-gradient(circle at 73% 79%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 78% 48%, rgba(255,255,255,.5) 0 1px, transparent 1.3px), radial-gradient(circle at 84% 8%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 89% 36%, rgba(255,255,255,.5) 0 1px, transparent 1.3px), radial-gradient(circle at 94% 71%, rgba(255,255,255,.45) 0 1px, transparent 1.3px), radial-gradient(circle at 15% 55%, rgba(244,232,108,.35) 0 1px, transparent 1.4px), radial-gradient(circle at 42% 33%, rgba(159,201,255,.35) 0 1px, transparent 1.4px), radial-gradient(circle at 64% 81%, rgba(244,232,108,.3) 0 1px, transparent 1.4px), radial-gradient(circle at 87% 17%, rgba(159,201,255,.3) 0 1px, transparent 1.4px), radial-gradient(circle at 50% 0%, rgba(255,255,255,0.04), transparent 36rem), radial-gradient(circle at 10% 20%, rgba(159,201,255,0.035), transparent 28rem), radial-gradient(circle at 90% 15%, rgba(244,232,108,0.03), transparent 28rem);
+}
+
+/* Keep content above the star field */
+.site-header,
+.site-main,
+main,
+.content,
+.hero-panel,
+.filter-panel,
+.summary-card,
+.film-card,
+.ship-card,
+.ship-row {
+    position: relative;
+    z-index: 1;
+}
+
+/* Finder grid view */
+.ship-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+    gap: 1rem;
+}
+
+.ship-grid .ship-card:only-child {
+    max-width: 340px;
+    justify-self: start;
+}
